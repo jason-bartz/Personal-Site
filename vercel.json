@@ -1,4 +1,7 @@
 {
+  "outputDirectory": ".",
+  "buildCommand": "",
+  "installCommand": "",
   "trailingSlash": false,
   "cleanUrls": true,
   "headers": [
@@ -18,12 +21,6 @@
           "value": "1; mode=block"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ]
 }
