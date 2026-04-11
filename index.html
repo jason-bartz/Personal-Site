@@ -654,20 +654,32 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
             z-index: 1000;
-            overflow-y: auto;
         }
 
         .photos-modal-overlay.active {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .photos-modal {
             background-color: #FFFFFF;
             border: 1px solid #CCCCCC;
-            max-width: 750px;
             width: calc(100% - 40px);
-            margin: 30px auto;
+            max-width: 1080px;
+            height: calc(100% - 60px);
+            max-height: 760px;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .photos-modal-body {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .photos-modal-header {
@@ -815,7 +827,7 @@
 
         .lightbox-image-wrap img {
             max-width: 100%;
-            max-height: 500px;
+            max-height: 460px;
             display: block;
             margin: 0 auto;
         }
@@ -864,20 +876,147 @@
             cursor: pointer;
         }
 
+        /* Work modal — project cards */
+        .work-projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 15px;
+            background-color: #EFEFF4;
+        }
+
+        .work-project-card {
+            background-color: #FFFFFF;
+            border: 1px solid #CCCCCC;
+            padding: 8px;
+            cursor: pointer;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .work-project-card:hover {
+            border-color: #3B5998;
+            box-shadow: 0 0 4px rgba(59, 89, 152, 0.3);
+        }
+
+        .work-project-card img {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            object-fit: cover;
+            display: block;
+            border: 1px solid #CCCCCC;
+        }
+
+        .work-project-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #003399;
+            margin-top: 6px;
+        }
+
+        .work-project-tagline {
+            font-size: 10px;
+            color: #666666;
+            margin-top: 2px;
+        }
+
+        .work-projects-grid.hidden,
+        .photos-grid.hidden {
+            display: none;
+        }
+
+        .work-project-detail {
+            display: none;
+        }
+
+        .work-project-detail.active {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background-color: #EFEFF4;
+        }
+
+        .work-project-detail .work-project-header {
+            flex: 0 0 320px;
+        }
+
+        .work-project-detail #workPhotosGrid {
+            flex: 1 1 auto;
+            padding: 0;
+            background: transparent;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .work-project-header {
+            background-color: #FFFFFF;
+            border: 1px solid #CCCCCC;
+            margin: 0;
+            padding: 10px 12px;
+        }
+
+        .work-project-header h3 {
+            font-size: 13px;
+            color: #003399;
+            margin-bottom: 4px;
+        }
+
+        .work-project-header p.work-project-desc {
+            font-size: 11px;
+            color: #333333;
+            line-height: 1.55;
+            margin-bottom: 6px;
+        }
+
+        .work-project-header p.work-project-stack {
+            font-size: 10px;
+            color: #666666;
+            line-height: 1.5;
+            margin-bottom: 6px;
+            padding-top: 6px;
+            border-top: 1px dotted #CCCCCC;
+        }
+
+        .work-project-header p.work-project-stack b {
+            color: #333333;
+        }
+
+        .work-project-header a.work-project-site {
+            font-size: 11px;
+            color: #003399;
+            font-weight: bold;
+        }
+
         @media (max-width: 600px) {
             .photos-modal {
                 width: calc(100% - 16px);
-                margin: 8px auto;
+                height: calc(100% - 16px);
+                max-height: none;
             }
 
-            .photos-grid {
+            .photos-grid,
+            .work-projects-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 8px;
                 padding: 10px;
             }
 
+            .work-project-detail.active {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .work-project-detail .work-project-header,
+            .work-project-detail #workPhotosGrid {
+                flex: 1 1 auto;
+                width: 100%;
+            }
+
             .lightbox-image-wrap img {
-                max-height: 300px;
+                max-height: 280px;
             }
         }
     </style>
@@ -891,6 +1030,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="javascript:void(0)" onclick="openPhotosModal()">Photos</a></li>
+                <li><a href="javascript:void(0)" onclick="openWorkModal()">Work</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -904,7 +1044,7 @@
                 <div style="display: flex; margin-bottom: 15px;">
                     <div style="flex: 0 0 auto; margin-right: 15px;">
                         <img src="images/jason-bartz-profile.webp" alt="Jason Bartz" class="profile-image" onclick="openPhotosModal()" style="cursor: pointer;">
-                        <div class="view-my-links">View My: <a href="javascript:void(0)" onclick="openPhotosModal()">Pics</a></div>
+                        <div class="view-my-links">View My: <a href="javascript:void(0)" onclick="openPhotosModal()">Pics</a> | <a href="javascript:void(0)" onclick="openWorkModal()">Work</a></div>
                     </div>
                     <div style="flex: 1;">
                         <p>":-)"</p>
@@ -1239,10 +1379,7 @@
             <div class="photos-modal-nav">
                 <a href="javascript:void(0)" onclick="closePhotosModal()">Back to Profile</a> &gt; <b>Photos</b>
             </div>
-            <div class="photos-modal-subheader">
-                <span>Jason's Photos</span>
-                <span class="photos-count">10 Photos</span>
-            </div>
+            <div class="photos-modal-body">
 
             <!-- Thumbnail Grid -->
             <div class="photos-grid" id="photosGrid">
@@ -1290,9 +1427,6 @@
 
             <!-- Lightbox View -->
             <div class="photos-lightbox" id="photosLightbox">
-                <div class="lightbox-back-link">
-                    <a href="javascript:void(0)" onclick="closeLightbox()">&laquo; Back to all photos</a>
-                </div>
                 <div class="lightbox-container">
                     <div class="lightbox-image-wrap">
                         <img id="lightboxImage" src="" alt="">
@@ -1306,6 +1440,56 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Work Modal -->
+    <div class="photos-modal-overlay" id="workModal">
+        <div class="photos-modal">
+            <div class="photos-modal-header">
+                <h2>Jason's Work</h2>
+                <button class="photos-modal-close" onclick="closeWorkModal()" aria-label="Close">×</button>
+            </div>
+            <div class="photos-modal-nav">
+                <a href="javascript:void(0)" onclick="closeWorkModal()">Back to Profile</a> &gt; <a href="javascript:void(0)" id="workBreadcrumbProjects" onclick="showWorkProjects()">Work</a><span id="workBreadcrumbProject"></span>
+            </div>
+            <div class="photos-modal-body">
+
+            <!-- Projects Index -->
+            <div class="work-projects-grid" id="workProjectsGrid"></div>
+
+            <!-- Per-Project Detail -->
+            <div class="work-project-detail" id="workProjectDetail">
+                <div class="work-project-header">
+                    <h3 id="workProjectName"></h3>
+                    <p id="workProjectDesc" class="work-project-desc"></p>
+                    <p id="workProjectStack" class="work-project-stack"></p>
+                    <a id="workProjectSite" class="work-project-site" href="#" target="_blank" rel="noopener"></a>
+                </div>
+                <div class="photos-grid" id="workPhotosGrid"></div>
+            </div>
+
+            <!-- Lightbox -->
+            <div class="photos-lightbox" id="workLightbox">
+                <div class="lightbox-back-link">
+                    <a href="javascript:void(0)" onclick="closeWorkLightbox()">&laquo; Back to project screenshots</a>
+                </div>
+                <div class="lightbox-container">
+                    <div class="lightbox-image-wrap">
+                        <img id="workLightboxImage" src="" alt="">
+                    </div>
+                    <div class="lightbox-info">
+                        <div class="lightbox-caption" id="workLightboxCaption"></div>
+                        <div class="lightbox-nav">
+                            <a href="javascript:void(0)" id="workLightboxPrev" onclick="prevWorkPhoto()">&laquo; Prev</a>
+                            <span class="lightbox-counter" id="workLightboxCounter"></span>
+                            <a href="javascript:void(0)" id="workLightboxNext" onclick="nextWorkPhoto()">Next &raquo;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -1348,16 +1532,23 @@
             document.body.style.overflow = '';
         }
 
+        function scrollPhotosBodyTop() {
+            var body = document.querySelector('#photosModal .photos-modal-body');
+            if (body) body.scrollTop = 0;
+        }
+
         function openLightbox(index) {
             currentPhoto = index;
             document.getElementById('photosGrid').classList.add('hidden');
             document.getElementById('photosLightbox').classList.add('active');
+            scrollPhotosBodyTop();
             updateLightbox();
         }
 
         function closeLightbox() {
             document.getElementById('photosGrid').classList.remove('hidden');
             document.getElementById('photosLightbox').classList.remove('active');
+            scrollPhotosBodyTop();
         }
 
         function updateLightbox() {
@@ -1391,13 +1582,306 @@
 
         // Keyboard navigation
         document.addEventListener('keydown', function(e) {
-            if (!document.getElementById('photosModal').classList.contains('active')) return;
-            if (e.key === 'Escape') closePhotosModal();
-            if (document.getElementById('photosLightbox').classList.contains('active')) {
-                if (e.key === 'ArrowLeft') prevPhoto();
-                if (e.key === 'ArrowRight') nextPhoto();
+            if (document.getElementById('photosModal').classList.contains('active')) {
+                if (e.key === 'Escape') closePhotosModal();
+                if (document.getElementById('photosLightbox').classList.contains('active')) {
+                    if (e.key === 'ArrowLeft') prevPhoto();
+                    if (e.key === 'ArrowRight') nextPhoto();
+                }
+            }
+            if (document.getElementById('workModal').classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    if (document.getElementById('workLightbox').classList.contains('active')) {
+                        closeWorkLightbox();
+                    } else if (document.getElementById('workProjectDetail').classList.contains('active')) {
+                        showWorkProjects();
+                    } else {
+                        closeWorkModal();
+                    }
+                }
+                if (document.getElementById('workLightbox').classList.contains('active')) {
+                    if (e.key === 'ArrowLeft') prevWorkPhoto();
+                    if (e.key === 'ArrowRight') nextWorkPhoto();
+                }
             }
         });
+
+        // Work modal
+        var workProjects = [
+            {
+                id: 'gnf',
+                name: 'Good Neighbor Fund',
+                tagline: 'Wild-west web for a community grant program',
+                description: "The site for my nonprofit, Good Neighbor Fund. The goal was twofold: give visitors a fun, interactive landing page to learn about GNF, submit grant applications, apply to become LPs, and find resources — and build an internal portal where our LP team can review submitted applications, watch pitch videos, and leave comments. The early-2000s aesthetic is a deliberate nod to when the internet was the wild west and people just built stuff and made things. We wanted the site to feel fun, making entrepreneurship feel accessible and approachable.",
+                stack: "<b>Built with:</b> React + Vite on the frontend, Firebase (Auth, Firestore, Functions) on the backend, and Leaflet for community maps. The internal LP review portal is built with React Admin on top of Firebase.",
+                site: 'https://www.neighborhoods.space',
+                cover: 'images/Work/gnf/gnf-01.jpg',
+                photos: [
+                    { src: 'images/Work/gnf/gnf-01.jpg', caption: 'NeighborhoodOS — an interactive desktop landing page with moveable, closeable windows and an AIM-style chat window guestbook' },
+                    { src: 'images/Work/gnf/gnf-02.jpg', caption: 'Resource Navigator — an interactive map plus a Founder Map plotting grant awardee businesses' },
+                    { src: 'images/Work/gnf/gnf-03.jpg', caption: 'LP Portal — a map view of incoming applications' },
+                    { src: 'images/Work/gnf/gnf-04.jpg', caption: 'Application review process — PMflow, a former winner, shown in the review interface' },
+                    { src: 'images/Work/gnf/gnf-05.jpg', caption: 'Badge system — gamification for awardees and applicants' }
+                ]
+            },
+            {
+                id: 'tandem',
+                name: 'Daily Tandem',
+                tagline: 'A growing collection of daily games',
+                description: "Started as a single daily game I built out of love for playing NYT Wordle and Connections — I wanted to make something my friends would actually play. It grew into a small collection: <b>Reel Connections</b> (a movie-themed Connections variant for the film lover in me), <b>Daily Mini</b> (built after the NYT gated their mini behind a paywall last year), and <b>Daily Alchemy</b> (inspired by my son's obsession with Infinite Craft — designed to be infinitely creative, fun, and a little educational). Currently sees a few hundred DAUs.",
+                stack: "<b>Built with:</b> Next.js, Supabase (Postgres + Auth), and Capacitor for the iOS wrapper. Stripe and native StoreKit for payments. <b>AI:</b> Anthropic Claude for puzzle generation; Daily Alchemy runs on Llama 4 for element combinations.",
+                site: 'https://www.dailytandem.com',
+                cover: 'images/Work/tandem/tandem-01.jpg',
+                photos: [
+                    { src: 'images/Work/tandem/tandem-01.jpg', caption: 'Welcome page with the four game cards' },
+                    { src: 'images/Work/tandem/tandem-02.jpg', caption: 'Welcome page with the right sidebar exposed' },
+                    { src: 'images/Work/tandem/tandem-03.jpg', caption: 'Daily Tandem game mode — the emoji pair puzzle' },
+                    { src: 'images/Work/tandem/tandem-04.jpg', caption: 'Reel Connections — start screen' },
+                    { src: 'images/Work/tandem/tandem-05.jpg', caption: 'Reel Connections — desktop puzzle screen' },
+                    { src: 'images/Work/tandem/tandem-06.jpg', caption: 'Daily Alchemy welcome page — daily puzzle, creative mode, and co-op modes' },
+                    { src: 'images/Work/tandem/tandem-07.jpg', caption: 'Daily Alchemy creative mode — a filled element bank, with gold-tinted chips marking first discoveries' },
+                    { src: 'images/Work/tandem/tandem-08.jpg', caption: 'Daily Mini — start screen' },
+                    { src: 'images/Work/tandem/tandem-09.jpg', caption: 'Daily Mini — puzzle page' },
+                    { src: 'images/Work/tandem/tandem-10.jpg', caption: 'Player stats sidebar' },
+                    { src: 'images/Work/tandem/tandem-11.jpg', caption: 'Achievements section' },
+                    { src: 'images/Work/tandem/tandem-12.jpg', caption: 'Puzzle archive — play every previous puzzle' },
+                    { src: 'images/Work/tandem/tandem-13.jpg', caption: 'Player first-discoveries log' },
+                    { src: 'images/Work/tandem/tandem-14.jpg', caption: 'Leaderboards — daily and best streaks across every game' },
+                    { src: 'images/Work/tandem/tandem-15.jpg', caption: 'Apple App Store listing' }
+                ]
+            },
+            {
+                id: 'tempo',
+                name: 'Tempo',
+                tagline: 'Ambient revenue intelligence for go-to-market teams',
+                description: "Built first for my own team at work — we were drowning juggling Slack, Gmail, and Jira to manage technical implementations. I wanted an orchestration layer: a rich data layer that sits on top of the systems we already use to run projects, instead of yet another tool to context-switch into. It grew into a workspace that covers the entire customer lifecycle from pre-sales through renewals, with what I call <b>Ambient Revenue Intelligence</b> infrastructure underneath — surfacing the right context at the right moment without anyone having to ask for it.",
+                stack: "<b>Built with:</b> Next.js + TypeScript, Neon Postgres via Prisma, and Pusher for real-time channels. <b>AI:</b> Vercel AI SDK + Anthropic Claude, routing between Haiku for routine tasks and Sonnet for complex reasoning. <b>Integrates with:</b> Slack, Gmail, Google Calendar, Google Drive, Jira, Notion, Confluence, Loom, HubSpot, Apollo, Spiky, Dialpad, and Zapier.",
+                site: 'https://www.tempohq.dev',
+                cover: 'images/Work/tempo/tempo-01.jpg',
+                photos: [
+                    { src: 'images/Work/tempo/tempo-01.jpg', caption: 'Tempo landing page' },
+                    { src: 'images/Work/tempo/tempo-02.jpg', caption: 'Landing page — integrations shown as scrolling marquees' },
+                    { src: 'images/Work/tempo/tempo-03.jpg', caption: 'Customizable command center' },
+                    { src: 'images/Work/tempo/tempo-04.jpg', caption: 'Task inbox' },
+                    { src: 'images/Work/tempo/tempo-05.jpg', caption: 'Calendar meeting notes — contact cards and an auto-generated AI brief ahead of every meeting' },
+                    { src: 'images/Work/tempo/tempo-06.jpg', caption: 'Analytics' },
+                    { src: 'images/Work/tempo/tempo-07.jpg', caption: 'Creating a new sequence in the marketing module' },
+                    { src: 'images/Work/tempo/tempo-08.jpg', caption: 'Sales pipeline' },
+                    { src: 'images/Work/tempo/tempo-09.jpg', caption: 'Build custom Tempo agents' }
+                ]
+            },
+            {
+                id: 'ylw',
+                name: 'Your Life Weekly',
+                tagline: 'Your life, visualized one week at a time',
+                description: "Started after reading a blog post about the life-in-weeks concept. I'd been following Stoic ideology since around 2019 and loved the idea immediately, but the apps that already existed were either paywalled with exorbitant weekly fees or were just poorly designed. So I built something robust, beautiful, and free. The native iOS app features the staple life grid (your life visualized as 4,000 blocks), a timeline, an almanac of 200+ Stoic quotes paired with modern commentary, and weekly reflections. An optional upgrade unlocks 50 custom app icons I designed plus home and lock screen widgets. The companion website includes a blog about the concept and Stoic thought, and a custom merch store where people can order their own physical life calendars.",
+                stack: "<b>iOS:</b> SwiftUI + SwiftData, with a WidgetKit extension for the home and lock screen widgets. StoreKit for the Pro upgrade. <b>Web:</b> custom Printful + Stripe checkout built end-to-end for the physical life calendar store.",
+                site: 'https://www.yourlifeweekly.com',
+                cover: 'images/Work/ylw/ylw-01.jpg',
+                photos: [
+                    { src: 'images/Work/ylw/ylw-01.jpg', caption: 'Your Life Weekly website' },
+                    { src: 'images/Work/ylw/ylw-02.jpg', caption: 'Website — celebrity public profiles section' },
+                    { src: 'images/Work/ylw/ylw-03.jpg', caption: 'Merch store — the grid for sale' },
+                    { src: 'images/Work/ylw/ylw-04.jpg', caption: 'The grid hat — in the merch store' },
+                    { src: 'images/Work/ylw/ylw-05.jpg', caption: 'The blog' },
+                    { src: 'images/Work/ylw/ylw-06.jpg', caption: 'Taylor Swift\u2019s public profile on the web (yourlifeweekly.com/u/taylor)' },
+                    { src: 'images/Work/ylw/ylw-07.jpg', caption: 'In the Apple App Store' },
+                    { src: 'images/Work/ylw/ylw-08.webp', caption: 'iOS app — grid view' },
+                    { src: 'images/Work/ylw/ylw-09.webp', caption: 'Onboarding — your time remaining' },
+                    { src: 'images/Work/ylw/ylw-10.webp', caption: 'Public profiles — featuring celebrity profiles' },
+                    { src: 'images/Work/ylw/ylw-11.webp', caption: 'Snapshot of the times' },
+                    { src: 'images/Work/ylw/ylw-12.webp', caption: 'Almanac view' },
+                    { src: 'images/Work/ylw/ylw-13.webp', caption: 'Decade Wrapped — a Spotify Wrapped style year-in-review' },
+                    { src: 'images/Work/ylw/ylw-14.webp', caption: 'Timeline view — add chapters, memories, and goals' },
+                    { src: 'images/Work/ylw/ylw-15.webp', caption: 'Home screen and lock screen widgets' },
+                    { src: 'images/Work/ylw/ylw-16.webp', caption: '50 custom app icons' },
+                    { src: 'images/Work/ylw/ylw-17.webp', caption: 'Print your life grid for free' }
+                ]
+            },
+            {
+                id: 'refraction',
+                name: 'Refraction',
+                tagline: 'Modern e-commerce for indie auto dealers',
+                description: "The landing page for my automotive SaaS company. Refraction gives independent dealers modern e-commerce sites that let their customers actually start a sale online — a real digital storefront where shoppers can begin a purchase, schedule a test drive, and work through trade-ins. It also includes <b>Prizm AI</b> to help customers make decisions in the moment. The whole thing is built to help small dealers future-proof themselves against the bigger players.",
+                stack: "",
+                site: 'https://www.shoprefraction.com',
+                cover: 'images/Work/refraction/refraction-01.jpg',
+                photos: [
+                    { src: 'images/Work/refraction/refraction-01.jpg', caption: 'Digital storefront' },
+                    { src: 'images/Work/refraction/refraction-02.jpg', caption: 'Vehicle detail page with reservation flow' },
+                    { src: 'images/Work/refraction/refraction-03.jpg', caption: 'Dealer dashboard' },
+                    { src: 'images/Work/refraction/refraction-04.jpg', caption: 'Credit applications dashboard' },
+                    { src: 'images/Work/refraction/refraction-05.jpg', caption: 'Analytics' },
+                    { src: 'images/Work/refraction/refraction-06.jpg', caption: 'Digital storefront — vehicle compare with the Prizm AI assistant' },
+                    { src: 'images/Work/refraction/refraction-07.jpg', caption: 'Refraction landing page' }
+                ]
+            },
+            {
+                id: 'ghostlot',
+                name: 'GhostLot',
+                tagline: 'Smart QR codes for the dealer lot',
+                description: "A second product line under Refraction, built specifically for mobile. Smart QR codes placed on dealer lots route customers straight to hyper-mobile VDPs (vehicle detail pages) optimized for the in-person browsing moment — bridging the gap between walking the lot and digital shopping.",
+                stack: "",
+                site: 'https://www.ghostlot.com',
+                cover: 'images/Work/ghostlot/ghostlot-01.jpg',
+                photos: [
+                    { src: 'images/Work/ghostlot/ghostlot-01.jpg', caption: 'GhostLot landing page' },
+                    { src: 'images/Work/ghostlot/ghostlot-02.jpg', caption: 'Landing page — features' },
+                    { src: 'images/Work/ghostlot/ghostlot-03.jpg', caption: 'Landing page — why dealers choose GhostLot' },
+                    { src: 'images/Work/ghostlot/ghostlot-04.jpg', caption: 'Smart QR code generator module' },
+                    { src: 'images/Work/ghostlot/ghostlot-05.jpg', caption: 'Test drive management module' },
+                    { src: 'images/Work/ghostlot/ghostlot-06.jpg', caption: 'Credit application review' },
+                    { src: 'images/Work/ghostlot/ghostlot-07.jpg', caption: 'Analytics' },
+                    { src: 'images/Work/ghostlot/ghostlot-08.jpg', caption: 'DMS integrations' },
+                    { src: 'images/Work/ghostlot/ghostlot-09.jpg', caption: 'Digital storefront (mobile)' },
+                    { src: 'images/Work/ghostlot/ghostlot-10.jpg', caption: 'Vehicle detail page' },
+                    { src: 'images/Work/ghostlot/ghostlot-11.jpg', caption: 'Vehicle detail page — expert reviews expanded' }
+                ]
+            }
+        
+        ];
+
+        var currentWorkProject = null;
+        var currentWorkPhoto = 0;
+
+        function renderWorkProjects() {
+            var grid = document.getElementById('workProjectsGrid');
+            grid.innerHTML = workProjects.map(function(p, i) {
+                return '<div class="work-project-card" onclick="openWorkProject(' + i + ')">' +
+                    '<img src="' + p.cover + '" alt="' + p.name + '">' +
+                    '<div class="work-project-name">' + p.name + '</div>' +
+                    '<div class="work-project-tagline">' + p.tagline + '</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function openWorkModal() {
+            document.getElementById('workModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            showWorkProjects();
+        }
+
+        function closeWorkModal() {
+            document.getElementById('workModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function scrollWorkBodyTop() {
+            var body = document.querySelector('#workModal .photos-modal-body');
+            if (body) body.scrollTop = 0;
+        }
+
+        function showWorkProjects() {
+            currentWorkProject = null;
+            document.getElementById('workProjectsGrid').classList.remove('hidden');
+            document.getElementById('workProjectDetail').classList.remove('active');
+            closeWorkLightbox();
+            document.getElementById('workBreadcrumbProject').innerHTML = '';
+            scrollWorkBodyTop();
+        }
+
+        function openWorkProject(index) {
+            currentWorkProject = index;
+            var project = workProjects[index];
+
+            // Populate the screenshot grid FIRST so it always renders
+            var grid = document.getElementById('workPhotosGrid');
+            if (grid) {
+                grid.classList.remove('hidden');
+                grid.innerHTML = project.photos.map(function(photo, i) {
+                    return '<div class="photo-thumb" onclick="openWorkLightbox(' + i + ')">' +
+                        '<img src="' + photo.src + '" alt="' + photo.caption + '">' +
+                        '<div class="photo-thumb-caption">' + photo.caption + '</div>' +
+                        '</div>';
+                }).join('');
+            }
+
+            // Toggle views
+            var projectsGrid = document.getElementById('workProjectsGrid');
+            if (projectsGrid) projectsGrid.classList.add('hidden');
+            var detail = document.getElementById('workProjectDetail');
+            if (detail) detail.classList.add('active');
+            var lightbox = document.getElementById('workLightbox');
+            if (lightbox) lightbox.classList.remove('active');
+
+            // Populate header card
+            var nameEl = document.getElementById('workProjectName');
+            if (nameEl) nameEl.textContent = project.name;
+            var descEl = document.getElementById('workProjectDesc');
+            if (descEl) descEl.innerHTML = project.description;
+            var stackEl = document.getElementById('workProjectStack');
+            if (stackEl) {
+                if (project.stack) {
+                    stackEl.innerHTML = project.stack;
+                    stackEl.style.display = '';
+                } else {
+                    stackEl.style.display = 'none';
+                }
+            }
+            var siteLink = document.getElementById('workProjectSite');
+            if (siteLink) {
+                siteLink.href = project.site;
+                siteLink.textContent = project.site.replace(/^https?:\/\//, '') + ' →';
+            }
+
+            // Update breadcrumb
+            var crumb = document.getElementById('workBreadcrumbProject');
+            if (crumb) crumb.innerHTML = ' &gt; <b>' + project.name + '</b>';
+
+            scrollWorkBodyTop();
+        }
+
+        function openWorkLightbox(index) {
+            currentWorkPhoto = index;
+            var detail = document.getElementById('workProjectDetail');
+            if (detail) detail.classList.remove('active');
+            document.getElementById('workLightbox').classList.add('active');
+            scrollWorkBodyTop();
+            updateWorkLightbox();
+        }
+
+        function closeWorkLightbox() {
+            document.getElementById('workPhotosGrid').classList.remove('hidden');
+            document.getElementById('workLightbox').classList.remove('active');
+            // Only restore the project detail view if we're still inside a project
+            if (currentWorkProject !== null) {
+                var detail = document.getElementById('workProjectDetail');
+                if (detail) detail.classList.add('active');
+            }
+            scrollWorkBodyTop();
+        }
+
+        function updateWorkLightbox() {
+            if (currentWorkProject === null) return;
+            var photos = workProjects[currentWorkProject].photos;
+            var photo = photos[currentWorkPhoto];
+            document.getElementById('workLightboxImage').src = photo.src;
+            document.getElementById('workLightboxImage').alt = photo.caption;
+            document.getElementById('workLightboxCaption').textContent = photo.caption;
+            document.getElementById('workLightboxCounter').textContent = (currentWorkPhoto + 1) + ' of ' + photos.length;
+            document.getElementById('workLightboxPrev').style.visibility = currentWorkPhoto === 0 ? 'hidden' : 'visible';
+            document.getElementById('workLightboxNext').style.visibility = currentWorkPhoto === photos.length - 1 ? 'hidden' : 'visible';
+        }
+
+        function prevWorkPhoto() {
+            if (currentWorkPhoto > 0) {
+                currentWorkPhoto--;
+                updateWorkLightbox();
+            }
+        }
+
+        function nextWorkPhoto() {
+            if (currentWorkPhoto < workProjects[currentWorkProject].photos.length - 1) {
+                currentWorkPhoto++;
+                updateWorkLightbox();
+            }
+        }
+
+        document.getElementById('workModal').addEventListener('click', function(e) {
+            if (e.target === this) closeWorkModal();
+        });
+
+        renderWorkProjects();
     </script>
 </body>
 </html>
