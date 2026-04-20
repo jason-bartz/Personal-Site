@@ -181,7 +181,7 @@
         /* Profile Image */
         .profile-image {
             width: 100%;
-            max-width: 200px;
+            max-width: 150px;
             margin-bottom: 10px;
             border: 1px solid #CCCCCC;
         }
@@ -212,6 +212,11 @@
         /* Section Styles */
         .section {
             margin-bottom: 20px;
+            border: 1px solid #3B5998;
+        }
+
+        .section:has(> .orange-header) {
+            border: none;
         }
 
         .section-header {
@@ -219,13 +224,10 @@
             color: white;
             padding: 5px;
             font-weight: bold;
-            margin-bottom: 10px;
-            border: 1px solid #3B5998;
         }
 
         .section-content {
             padding: 5px;
-            margin-bottom: 10px;
         }
 
         /* Orange Headers */
@@ -234,8 +236,11 @@
             color: #FF6600;
             padding: 5px;
             font-weight: bold;
-            margin-bottom: 10px;
-            border: 1px solid #FF6600;
+        }
+
+        .orange-header.plain {
+            background-color: transparent;
+            padding: 0;
         }
 
         /* Extended Network Box */
@@ -265,22 +270,23 @@
         .online-status {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            margin-top: 8px;
         }
 
-        .online-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: #00CC00;
+        .online-person {
+            display: inline-flex;
             margin-right: 5px;
-            animation: blink 2s infinite;
+            animation: online-bob 1.2s ease-in-out infinite;
         }
 
-        @keyframes blink {
-            0% { background-color: #00CC00; }
-            50% { background-color: #FF9900; }
-            100% { background-color: #00CC00; }
+        .online-now-label {
+            font-weight: bold;
+            color: #669900;
+        }
+
+        @keyframes online-bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
         }
 
         /* Contact Buttons */
@@ -1050,19 +1056,19 @@
                         <p>":-)"</p>
                         <p>Buffalo, New York,</p>
                         <p>United States</p>
+                        <div class="online-status">
+                            <span class="online-person" aria-hidden="true">
+                                <svg width="11" height="13" viewBox="0 0 12 14" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="6" cy="4" r="3" fill="#FF6600"/>
+                                    <path d="M1 14 C1 10 3 8 6 8 C9 8 11 10 11 14 Z" fill="#FF6600"/>
+                                </svg>
+                            </span>
+                            <span class="online-now-label">Online Now!</span>
+                        </div>
+                        <p class="last-login" id="last-login">Last Login: 05/21/2025</p>
                     </div>
                 </div>
-                
-                <div class="profile-info">
-                    <div class="mood">
-                        <p>Mood: tired 🥱</p>
-                    </div>
-                    <p class="last-login" id="last-login">Last Login: 05/21/2025</p>
-                </div>
-                <div class="online-status">
-                    <div class="online-indicator"></div>
-                    <span><div style="font-weight: bold; color: #669900;">Online Now!</div></span>
-                </div>
+
                 
                 <div class="contact-buttons">
                     <div class="contact-header">Contacting Jason</div>
@@ -1137,7 +1143,7 @@
                             </tr>
                             <tr>
                                 <td>Currently Watching</td>
-                                <td>Pluribus, From, The Chair Company</td>
+                                <td>Pluribus, From</td>
                             </tr>
                         </table>
                     </div>
@@ -1187,6 +1193,51 @@
                         </table>
                     </div>
                 </div>
+                <div class="section">
+                    <div class="section-header">
+                        Jason's Volunteer Work
+                    </div>
+                    <div class="section-content">
+                        <table class="interests-table">
+                            <tr>
+                                <td>Frank Lloyd Wright's Graycliff Conservancy</td>
+                                <td>Board of Directors<br>April 2026 – Present</td>
+                            </tr>
+                            <tr>
+                                <td>WNY48</td>
+                                <td>Organizer &amp; Sponsor<br>March 2026 – Present</td>
+                            </tr>
+                            <tr>
+                                <td>Equipment Leasing and Finance Association</td>
+                                <td>Independent Business Council, Steering Committee Member<br>October 2024 – Present</td>
+                            </tr>
+                            <tr>
+                                <td>NYBPC</td>
+                                <td>Finals Judge<br>2024 – Present</td>
+                            </tr>
+                            <tr>
+                                <td>Ten Thousand Villages</td>
+                                <td>Vice Chairman, Board of Directors<br>January 2023 – Present</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>Advisory Board Member<br>January 2023 – Present</td>
+                            </tr>
+                            <tr>
+                                <td>Awesome Foundation</td>
+                                <td>Trustee<br>2020 – 2024</td>
+                            </tr>
+                            <tr>
+                                <td>ACV Auctions</td>
+                                <td>Diversity, Equity &amp; Inclusion Committee Member<br>July 2020 – August 2022</td>
+                            </tr>
+                            <tr>
+                                <td>ACV Auctions</td>
+                                <td>Active Community Volunteer Member<br>March 2018 – August 2022</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- Right Column -->
@@ -1197,7 +1248,7 @@
                 
                 <div class="blog-entry">
                     <p><b>Jason's Latest Blog Entry</b> [<a href="https://jasonmbartz.medium.com/" class="view-more">Subscribe to this Blog</a>]</p>
-                    <p>The Social Cigarette (<a href="https://medium.com/illumination/the-social-cigarette-270270dce582" class="view-more">read</a>)</p>
+                    <p>What I Learned From Building A Startup In A Weekend (<a href="https://jasonmbartz.medium.com/what-i-learned-from-building-a-startup-in-a-weekend-31c35f841fd0" class="view-more">read</a>)</p>
                     <p>Building My Longevity Protocol (<a href="https://jasonmbartz.medium.com/building-my-longevity-protocol-2c1dd5981c8f" class="view-more">read</a>)</p>
                     <p>Going Back to Basics: The Appeal of a Dumb Phone... (<a href="https://medium.com/@jasonmbartz/going-back-to-basics-94925581689f" class="view-more">read</a>)</p>
                     <p>[<a href="https://jasonmbartz.medium.com/" class="view-more">View All Blog Entries</a>]</p>
@@ -1256,7 +1307,7 @@
                 </div>
                 
                 <div class="section">
-                    <div class="orange-header">
+                    <div class="orange-header plain">
                         Who I'd Like To Meet
                     </div>
                     <div class="section-content">
@@ -1722,6 +1773,29 @@
                 ]
             },
             {
+                id: 'ghostly',
+                name: 'Ghostly',
+                tagline: 'Voice-first typing for macOS',
+                description: "A native macOS app that turns speech into perfectly-formatted text wherever your cursor is — no integrations, no extensions, just a global shortcut that works in every app. Built around a core insight: people think about 3x faster than they type, and traditional dictation tools produce robotic, one-size-fits-all output that you still have to clean up by hand. Ghostly solves that with <b>style matching</b> (casual in iMessage, polished in Gmail, camelCase in your editor), a <b>developer mode</b> that understands camelCase/snake_case and voice-controls Cursor, Claude Code, and Windsurf, and <b>on-device transcription</b> so your audio never leaves your Mac. Free forever, with an optional $39 one-time Pro upgrade.",
+                stack: "<b>macOS app:</b> Swift + SwiftUI, with a local HTTP API for scripting. <b>Transcription:</b> on-device Whisper, Parakeet, Moonshine, and Canary models running on Apple Silicon Neural Engine, plus optional Apple Intelligence cleanup. <b>AI:</b> local models for post-processing and style matching. <b>Landing page:</b> Next.js, deployed on Vercel.",
+                site: 'https://www.try-ghostly.com',
+                cover: 'images/Work/ghostly/ghostly-01.jpg',
+                photos: [
+                    { src: 'images/Work/ghostly/ghostly-01.jpg', caption: 'Landing page hero — voice-first typing for macOS' },
+                    { src: 'images/Work/ghostly/ghostly-02.jpg', caption: 'Works wherever your cursor is — no integrations or extensions required' },
+                    { src: 'images/Work/ghostly/ghostly-03.jpg', caption: 'Style matching — different tone per app (Gmail, Slack, Messages)' },
+                    { src: 'images/Work/ghostly/ghostly-04.jpg', caption: 'Dictate code, not keystrokes — voice control for Cursor, Claude Code, and Windsurf' },
+                    { src: 'images/Work/ghostly/ghostly-05.jpg', caption: 'Private by default — transcription runs on-device, your code never leaves your machine' },
+                    { src: 'images/Work/ghostly/ghostly-06.jpg', caption: 'Landing page — full feature grid' },
+                    { src: 'images/Work/ghostly/ghostly-07.jpg', caption: 'Pricing — free forever with an optional $39 one-time Pro upgrade' },
+                    { src: 'images/Work/ghostly/ghostly-08.jpg', caption: 'App — notes view with searchable transcription history, playback, and tags' },
+                    { src: 'images/Work/ghostly/ghostly-09.jpg', caption: 'App — Style Matching, tuning dictation per app context' },
+                    { src: 'images/Work/ghostly/ghostly-10.jpg', caption: 'App — AI Refinement prompts for customizing post-processing behavior' },
+                    { src: 'images/Work/ghostly/ghostly-11.jpg', caption: 'App — Dictionary with vocabulary presets for React, TypeScript, Rust, and more' },
+                    { src: 'images/Work/ghostly/ghostly-12.jpg', caption: 'App — Vibe Coding mode with IDE presets for voice-controlling AI coding agents' }
+                ]
+            },
+            {
                 id: 'ghostlot',
                 name: 'GhostLot',
                 tagline: 'Smart QR codes for the dealer lot',
@@ -1743,8 +1817,13 @@
                     { src: 'images/Work/ghostlot/ghostlot-11.jpg', caption: 'Vehicle detail page — expert reviews expanded' }
                 ]
             }
-        
+
         ];
+
+        var workProjectOrder = ['ghostly', 'tempo', 'tandem', 'gnf', 'ylw', 'refraction', 'ghostlot'];
+        workProjects.sort(function(a, b) {
+            return workProjectOrder.indexOf(a.id) - workProjectOrder.indexOf(b.id);
+        });
 
         var currentWorkProject = null;
         var currentWorkPhoto = 0;
